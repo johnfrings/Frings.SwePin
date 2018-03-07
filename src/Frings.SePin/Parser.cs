@@ -7,13 +7,13 @@ using Frings.SePin.Models;
 
 namespace Frings.SePin
 {
-    internal class Parser
+    internal static class Parser
     {
         public static PinParts Parse(string pinValue)
         {
             var result = new PinParts();
 
-            var cleanPinValue = Cleaner.Clean(pinValue);
+            var cleanPinValue = InputCleaner.Clean(pinValue);
 
             if (Validator.ValidateInput(cleanPinValue) is var validationResult &&
                 !validationResult.HasFlag(ValidationResult.Valid))

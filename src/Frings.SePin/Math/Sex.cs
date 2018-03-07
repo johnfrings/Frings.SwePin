@@ -25,10 +25,15 @@ namespace Frings.SePin.Math
             return random.Next(1, 100) >= 50 ? Data.Sex.Female : Data.Sex.Male;
         }
 
-        internal static int GetRandomBirthNumber(Data.Sex sex)
+        internal static int GetRandomBirthNumber(Data.Sex sex = Data.Sex.Unspecified)
         {
             var random = new Random();
             int birthNumber;
+
+            if (sex == Data.Sex.Unspecified)
+            {
+                sex = random.Next(1, 100) % 2 == 0 ? Data.Sex.Male : Data.Sex.Female;
+            }
 
             if (sex.Equals(Data.Sex.Female))
             {

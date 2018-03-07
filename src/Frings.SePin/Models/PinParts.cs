@@ -10,6 +10,6 @@
 
         public int BirthNumber { get; set; }
 
-        public int ControlNumber { get; set; }
+        public int? ControlNumber { get; set; }
     }
 }

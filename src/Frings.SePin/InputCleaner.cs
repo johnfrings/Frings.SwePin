@@ -2,7 +2,7 @@
 
 namespace Frings.SePin
 {
-    internal class Cleaner
+    internal static class InputCleaner
     {
         public static string Clean(string pinValue)
         {

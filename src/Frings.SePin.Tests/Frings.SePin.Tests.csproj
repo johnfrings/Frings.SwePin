@@ -51,7 +51,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="GenerationTests.cs" />
+    <Compile Include="ValidatorValidateBirthNumberTests.cs" />
+    <Compile Include="ValidatorValidateMonthTests.cs" />
+    <Compile Include="ValidatorValidateDayTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

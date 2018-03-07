@@ -7,7 +7,7 @@ using Frings.SePin.Models;
 
 namespace Frings.SePin
 {
-    internal class Validator
+    internal static class Validator
     {
         public static ValidationResult Validate(int year, int month, int day, int birthNumber, int controlNumber)
         {
@@ -53,7 +53,15 @@ namespace Frings.SePin
         {
             var result = ValidationResult.Valid;
 
-            if (Validate(pinParts.Year, pinParts.Month, pinParts.Day, pinParts.BirthNumber, pinParts.ControlNumber) is var validationResult &&
+            if (pinParts.ControlNumber.HasValue)
+            {
+                if (Validate(pinParts.Year, pinParts.Month, pinParts.Day, pinParts.BirthNumber, pinParts.ControlNumber.Value) is var validationResult &&
+                    !validationResult.HasFlag(ValidationResult.Valid))
+                {
+                    result = validationResult;
+                }
+            }
+            else if (Validate(pinParts.Year, pinParts.Month, pinParts.Day, pinParts.BirthNumber) is var validationResult &&
                 !validationResult.HasFlag(ValidationResult.Valid))
             {
                 result = validationResult;
@@ -114,7 +122,7 @@ namespace Frings.SePin
         {
             var result = ValidationResult.Valid;
 
-            if (day < 0 || day > 31)
+            if (day < 1 || day > 31)
             {
                 result = ValidationResult.InvalidDayNumber;
             }
