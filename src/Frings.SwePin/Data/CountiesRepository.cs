@@ -11,12 +11,8 @@ namespace Frings.SwePin.Data
     {
         private static List<County> _counties;
 
-        private readonly Random _random;
-
         public CountiesRepository()
         {
-            _random = new Random((int)DateTime.Now.Ticks);
-
             _counties = new List<County>
             {
                 new County("Stockholms län", new Range(1, 139)),
@@ -63,13 +59,13 @@ namespace Frings.SwePin.Data
 
             if (sex == Sex.Unspecified)
             {
-                result = _random.Next(county.Range.From, county.Range.To);
+                result = Static.Random.Next(county.Range.From, county.Range.To);
             }
             else
             {
                 var mid = county.Range.From + (county.Range.To - county.Range.From) / 2;
 
-                result = _random.Next(county.Range.From, mid) * 2;
+                result = Static.Random.Next(county.Range.From, mid) * 2;
 
                 if ((sex == Sex.Male && result % 2 == 0) ||
                     (sex == Sex.Female && result % 2 != 0))

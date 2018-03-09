@@ -1,4 +1,5 @@
-﻿using Frings.SwePin.Generation;
+﻿using System.Linq;
+using Frings.SwePin.Generation;
 
 using NUnit.Framework;
 
@@ -9,7 +10,7 @@ namespace Frings.SwePin.Tests
     {
         [Test]
         [Category("Unit")]
-        public void GeneratePinBasedOnAge()
+        public void GenerateBasedOnAge()
         {
             for (var age = 1; age < 110; ++age)
             {
@@ -24,7 +25,7 @@ namespace Frings.SwePin.Tests
 
         [Test]
         [Category("Unit")]
-        public void GeneratePin()
+        public void Generate()
         {
             var pin =
                 Pin.Generation()
@@ -32,6 +33,25 @@ namespace Frings.SwePin.Tests
 
             Assert.IsTrue(!Pin.IsNullOrEmpty(pin));
             Assert.AreEqual(pin.BirthDate.Year, pin.Year);
+        }
+
+        [Test]
+        [Category("Unit")]
+        public void GenerateManyBasedOnAge()
+        {
+            var pins =
+                Pin.Generation()
+                    .WithAge(25)
+                    .GenerateMany(1000)
+                    .OrderBy(p => p)
+                    .ToList();
+
+            Assert.AreEqual(1000, pins.Count);
+
+            foreach (var pin in pins)
+            {
+                Assert.AreEqual(25, pin.Age);
+            }
         }
     }
 }

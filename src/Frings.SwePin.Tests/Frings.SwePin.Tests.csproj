@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GenerationTests.cs" />
+    <Compile Include="PinToStringTests.cs" />
     <Compile Include="ValidatorValidateBirthNumberTests.cs" />
     <Compile Include="ValidatorValidateMonthTests.cs" />
     <Compile Include="ValidatorValidateDayTests.cs" />

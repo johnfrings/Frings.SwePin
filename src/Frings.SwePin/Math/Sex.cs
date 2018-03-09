@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Frings.SwePin.Math
 {
@@ -27,21 +25,20 @@ namespace Frings.SwePin.Math
 
         internal static int GetRandomBirthNumber(Data.Sex sex = Data.Sex.Unspecified)
         {
-            var random = new Random();
             int birthNumber;
 
             if (sex == Data.Sex.Unspecified)
             {
-                sex = random.Next(1, 100) % 2 == 0 ? Data.Sex.Male : Data.Sex.Female;
+                sex = Static.Random.Next(1, 100) % 2 == 0 ? Data.Sex.Male : Data.Sex.Female;
             }
 
             if (sex.Equals(Data.Sex.Female))
             {
-                birthNumber = random.Next(1, 499) * 2;
+                birthNumber = Static.Random.Next(1, 499) * 2;
             }
             else
             {
-                birthNumber = (random.Next(0, 499) * 2) + 1;
+                birthNumber = Static.Random.Next(0, 499) * 2 + 1;
             }
 
             return birthNumber;

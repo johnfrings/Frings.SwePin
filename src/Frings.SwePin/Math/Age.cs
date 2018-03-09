@@ -29,11 +29,9 @@ namespace Frings.SwePin.Math
 
         internal static DateTime GetRandomBirthDate(int age)
         {
-            var random = new Random();
-
             return DateTime.Now.AddYears(age * -1)
-                .AddMonths(random.Next(0, 11) * -1)
-                .AddDays(random.Next(0, 27) * -1);
+                .AddMonths(Static.Random.Next(0, 11) * -1)
+                .AddDays(Static.Random.Next(0, 27) * -1);
         }
     }
 }

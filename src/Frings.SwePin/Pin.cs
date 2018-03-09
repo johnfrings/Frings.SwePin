@@ -167,17 +167,62 @@ namespace Frings.SwePin
 
         public int CompareTo(DateTime other)
         {
-            throw new NotImplementedException();
+            return BirthDate.CompareTo(other);
         }
 
         public int CompareTo(Pin other)
         {
-            throw new NotImplementedException();
+            return BirthDate.CompareTo(other.BirthDate);
         }
 
         public override string ToString()
         {
-            return $"{Year}{Month:D2}{Day:D2}{SeparatorCharacter}{BirthNumber:D3}{ControlNumber}";
+            return ToString(PinFormat.Default);
+        }
+
+        public string ToString(PinFormat format)
+        {
+            if (format == PinFormat.Default)
+            {
+                return $"{Year:D4}{Month:D2}{Day:D2}{BirthNumber:D3}{ControlNumber}";
+            }
+
+            if (format == PinFormat.BirthDate)
+            {
+                return $"{Year:D4}{Month:D2}{Day:D2}";
+            }
+
+            if (format == PinFormat.BirthDateSeparated)
+            {
+                return $"{Year:D4}-{Month:D2}-{Day:D2}";
+            }
+
+            if (format == PinFormat.Long)
+            {
+                return $"{Year:D4}{Month:D2}{Day:D2}{SeparatorCharacter}{BirthNumber:D3}{ControlNumber}";
+            }
+
+            if (format == PinFormat.Short)
+            {
+                return $"{Year % 100:D2}{Month:D2}{Day:D2}{SeparatorCharacter}{BirthNumber:D3}{ControlNumber}";
+            }
+
+            if (format == PinFormat.ShortAndLossy)
+            {
+                return $"{Year % 100:D2}{Month:D2}{Day:D2}{BirthNumber:D3}{ControlNumber}";
+            }
+
+            if (format == PinFormat.ShortLossyBirthDate)
+            {
+                return $"{Year % 100:D2}{Month:D2}{Day:D2}";
+            }
+
+            if (format == PinFormat.ShortLossyBirthDateSeparated)
+            {
+                return $"{Year % 100:D2}-{Month:D2}-{Day:D2}";
+            }
+
+            throw new NotImplementedException();
         }
 
         internal string SeparatorCharacter

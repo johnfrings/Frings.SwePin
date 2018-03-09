@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Frings.SwePin.Data;
 using Frings.SwePin.Exceptions;
@@ -72,9 +73,18 @@ namespace Frings.SwePin.Generation
             return config;
         }
 
-        public static Pin Generate(this GenerationConfig config)
+        public static IEnumerable<Pin> GenerateMany(this GenerationConfig config, int count)
         {
             var random = new Random((int)DateTime.Now.Ticks);
+
+            for (var i = 0; i < count; ++i)
+            {
+                yield return Generate(config);
+            }
+        }
+
+        public static Pin Generate(this GenerationConfig config)
+        {
             var pinParts = new PinParts();
 
             if (config.Age.HasValue)
@@ -97,7 +107,7 @@ namespace Frings.SwePin.Generation
                 }
                 else
                 {
-                    pinParts.Year = random.Next(DateTime.Now.AddYears(-110).Year, DateTime.Now.Year);
+                    pinParts.Year = Static.Random.Next(DateTime.Now.AddYears(-110).Year, DateTime.Now.Year);
                 }
 
                 if (config.Month.HasValue)
@@ -106,7 +116,7 @@ namespace Frings.SwePin.Generation
                 }
                 else
                 {
-                    pinParts.Month = random.Next(1, 12);
+                    pinParts.Month = Static.Random.Next(1, 12);
                 }
 
                 var validDays = DateTime.DaysInMonth(pinParts.Year, pinParts.Month);
@@ -119,7 +129,7 @@ namespace Frings.SwePin.Generation
                 else
                 {
                     //// TODO: If a day is specifically specified and is generally valid but NOT valid for the year&month, should we 1) throw 2) adjust the day 3) adjust the month
-                    pinParts.Day = random.Next(1, validDays);
+                    pinParts.Day = Static.Random.Next(1, validDays);
                 }
             }
 
