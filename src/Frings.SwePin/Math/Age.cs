@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Frings.SwePin.Math
 {
@@ -32,6 +33,14 @@ namespace Frings.SwePin.Math
             return DateTime.Now.AddYears(age * -1)
                 .AddMonths(Static.Random.Next(0, 11) * -1)
                 .AddDays(Static.Random.Next(0, 27) * -1);
+        }
+
+        internal static int[] PossibleBirthYears(int age)
+        {
+            var latestPossibleYearDate = DateTime.Now.AddYears(-age);
+            var earliestPossibleYearDate = latestPossibleYearDate.AddDays(-364); //// TODO: account for leap year
+
+            return new int[2] { earliestPossibleYearDate.Year, earliestPossibleYearDate.Year };
         }
     }
 }

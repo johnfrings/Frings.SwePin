@@ -26,7 +26,7 @@ namespace Frings.SwePin.Generation
 
         public static GenerationConfig FromCounty(this GenerationConfig config, County county)
         {
-            if (!County.IsNullOrEmpty(county))
+            if (county != null)
             {
                 config.County = county;
             }
@@ -75,8 +75,6 @@ namespace Frings.SwePin.Generation
 
         public static IEnumerable<Pin> GenerateMany(this GenerationConfig config, int count)
         {
-            var random = new Random((int)DateTime.Now.Ticks);
-
             for (var i = 0; i < count; ++i)
             {
                 yield return Generate(config);
@@ -133,7 +131,7 @@ namespace Frings.SwePin.Generation
                 }
             }
 
-            if (!County.IsNullOrEmpty(config.County) &&
+            if (config.County != null &&
                 pinParts.Year < 1990)
             {
                 pinParts.BirthNumber = new CountiesRepository().GetRandomBirthNumber(config.County, config.Sex);

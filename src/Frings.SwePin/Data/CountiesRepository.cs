@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+using Frings.SwePin.Abstractions;
 using Frings.SwePin.Models;
 
 namespace Frings.SwePin.Data
 {
-    internal class CountiesRepository : IEnumerable<County>
+    internal class CountiesRepository : ICountiesRepository
     {
-        private static List<County> _counties;
+        private static List<ICounty> _counties;
 
         public CountiesRepository()
         {
-            _counties = new List<County>
+            _counties = new List<ICounty>
             {
                 new County("Stockholms län", new Range(1, 139)),
                 new County("Uppsala län", new Range(140, 159)),
@@ -46,11 +46,9 @@ namespace Frings.SwePin.Data
             // Riksskatteverket 930-999
         }
 
-        public County this[int index] => _counties[index];
-
-        public County Get(int birthNumber)
+        public ICounty Get(int birthNumber)
         {
-            return _counties.FirstOrDefault(c => c.Range.Contains(birthNumber)) ?? County.Empty;
+            return _counties.FirstOrDefault(c => c.Range.Contains(birthNumber));
         }
 
         public int GetRandomBirthNumber(County county, Sex sex = Sex.Unspecified)
@@ -77,7 +75,7 @@ namespace Frings.SwePin.Data
             return result;
         }
 
-        public IEnumerator<County> GetEnumerator()
+        public IEnumerator<ICounty> GetEnumerator()
         {
             return _counties.GetEnumerator();
         }

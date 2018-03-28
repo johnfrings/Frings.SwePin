@@ -1,8 +1,10 @@
 ﻿using System;
 
+using Frings.SwePin.Abstractions;
+
 namespace Frings.SwePin.Models
 {
-    public class County
+    public class County : ICounty
     {
         public County(string name, Range range)
         {
@@ -10,15 +12,8 @@ namespace Frings.SwePin.Models
             Range = range ?? throw new ArgumentException("Missing parameter value", nameof(range));
         }
 
-        public static County Empty;
-
         public string Name { get; set; }
 
         public Range Range { get; set; }
-
-        public static bool IsNullOrEmpty(County county)
-        {
-            return county == null || county == Empty;
-        }
     }
 }

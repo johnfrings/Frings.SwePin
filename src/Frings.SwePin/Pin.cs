@@ -1,5 +1,5 @@
 ﻿using System;
-
+using Frings.SwePin.Abstractions;
 using Frings.SwePin.Data;
 using Frings.SwePin.Exceptions;
 using Frings.SwePin.Generation;
@@ -12,7 +12,7 @@ namespace Frings.SwePin
         private int? _age;
         private Sex _sex;
         private DateTime? _birthDate;
-        private County _county;
+        private ICounty _county;
 
         internal Pin(int year, int month, int day, int birthNumber, int? controlNumber)
         {
@@ -112,18 +112,18 @@ namespace Frings.SwePin
             }
         }
 
-        public County County
+        public ICounty County
         {
             get
             {
-                if (County.IsNullOrEmpty(_county))
+                if (_county != null)
                 {
                     if (Year < 1990)
                     {
                         _county = new CountiesRepository().Get(BirthNumber);
                     }
 
-                    _county = County.Empty;
+                    _county = null;
                 }
 
                 return _county;
