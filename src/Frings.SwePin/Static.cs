@@ -4,6 +4,8 @@ namespace Frings.SwePin
 {
     internal static class Static
     {
-        internal static Random Random = new Random((int)DateTime.Now.Ticks);
+        private static readonly Random _random = new Random(Guid.NewGuid().GetHashCode());
+
+        internal static Random Random => _random;
     }
 }
