@@ -15,7 +15,7 @@ namespace Frings.SwePin.Generation
         private int? _month;
         private int? _day;
 
-        public PinBuilder BornIn(ICounty county)
+        public PinBuilder WithBirthCounty(ICounty county)
         {
             _county = county;
 
@@ -76,7 +76,7 @@ namespace Frings.SwePin.Generation
                 _year.Value < 1990)
             {
                 var initialBirthNumber =
-                    Static.Random.Next(_county.Range.From, (int) System.Math.Floor((double)_county.Range.To / 2)) * 2;
+                    Static.Random.Next(_county.Range.From, _county.Range.To - (_county.Range.To - _county.Range.From) / 2) * 2;
 
                 if (_sex == Sex.Male)
                 {

@@ -32,7 +32,7 @@ namespace Frings.SwePin.Tests.Generation
                     .WithMonth(month)
                     .WithDay(day)
                     .WithSex(sex)
-                    .BornIn(new County("Foo", new Range(100, 200)))
+                    .WithBirthCounty(new County("Foo", new Range(100, 200)))
                     .Build();
 
             Assert.AreEqual(year, result.Year);
