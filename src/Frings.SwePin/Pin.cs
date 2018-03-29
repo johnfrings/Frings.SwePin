@@ -155,6 +155,11 @@ namespace Frings.SwePin
             return Validator.Validate(pinValue);
         }
 
+        public static PinBuilder CreateBuilder()
+        {
+            return new PinBuilder();
+        }
+
         public static GenerationConfig Generation()
         {
             return new Generator().Setup();

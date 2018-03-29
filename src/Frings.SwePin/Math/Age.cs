@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+
+using Frings.SwePin.Models;
 
 namespace Frings.SwePin.Math
 {
@@ -35,12 +36,47 @@ namespace Frings.SwePin.Math
                 .AddDays(Static.Random.Next(0, 27) * -1);
         }
 
-        internal static int[] PossibleBirthYears(int age)
+        internal static Range PossibleBirthYears(int age)
         {
-            var latestPossibleYearDate = DateTime.Now.AddYears(-age);
-            var earliestPossibleYearDate = latestPossibleYearDate.AddDays(-364); //// TODO: account for leap year
-
-            return new int[2] { earliestPossibleYearDate.Year, earliestPossibleYearDate.Year };
+            return PossibleBirthYears(age, DateTime.Now);
         }
+
+        internal static Range PossibleBirthYears(int age, DateTime basedOnDate)
+        {
+            var latestPossibleYear = basedOnDate.AddYears(-age).Year;
+
+            return new Range(latestPossibleYear - 1, latestPossibleYear);
+        }
+
+        internal static Range PossibleBirthMonths(int age, int year)
+        {
+            return PossibleBirthMonths(age, year, DateTime.Now);
+        }
+
+        internal static Range PossibleBirthMonths(int age, int year, DateTime basedOnDate)
+        {
+            var thisYearShouldBecomeAge = basedOnDate.Year - age;
+
+            var firstPossibleBirthMonth = 1;
+            var lastPossibleBirthMonth = 12;
+
+            if (thisYearShouldBecomeAge > age)
+            {
+                // Not yet had birthday
+                firstPossibleBirthMonth = basedOnDate.Month;
+            }
+            else
+            {
+                // Already had birthday
+                lastPossibleBirthMonth = basedOnDate.Month;
+            }
+
+            return new Range(firstPossibleBirthMonth, lastPossibleBirthMonth);
+        }
+
+        ////internal static Range PossibleBirthDayOfMonth(int age, int year, int month, DateTime basedOnDate)
+        ////{
+
+        ////}
     }
 }

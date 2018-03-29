@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Frings.SwePin.Models
 {
     public class Range : IComparable<int>
     {
+        private List<int> _enumerated;
+
         public Range(int from, int to)
         {
             if (from > to)
@@ -13,6 +16,24 @@ namespace Frings.SwePin.Models
 
             From = from;
             To = to;
+        }
+
+        public IEnumerable<int> Get
+        {
+            get
+            {
+                if (_enumerated == null)
+                {
+                    _enumerated = new List<int>();
+
+                    for (var i = From; i <= To; ++i)
+                    {
+                        _enumerated.Add(i);
+                    }
+                }
+
+                return _enumerated;
+            }
         }
 
         public int From { get; }
