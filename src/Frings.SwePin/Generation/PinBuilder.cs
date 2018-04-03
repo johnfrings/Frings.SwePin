@@ -15,9 +15,20 @@ namespace Frings.SwePin.Generation
         private int? _month;
         private int? _day;
 
+        internal PinBuilder()
+        {
+        }
+
         public PinBuilder WithBirthCounty(ICounty county)
         {
             _county = county;
+
+            return this;
+        }
+
+        public PinBuilder WithBirthCounty(Func<ICounty> countyFunc)
+        {
+            _county = countyFunc.Invoke();
 
             return this;
         }
@@ -101,6 +112,10 @@ namespace Frings.SwePin.Generation
 
         private DateTime GenerateBirthDate()
         {
+            int year = 0;
+            int month = 0;
+            int day = 0;
+
             if (!_year.HasValue)
             {
                 var initialRandomYear = DateTime.Now.AddYears(-Static.Random.Next(0, 100)).Year;
@@ -109,20 +124,32 @@ namespace Frings.SwePin.Generation
                 var maxToSubtract =
                     (int) System.Math.Floor(System.Math.PI *
                                             System.Math.Tan((initialRandomYear + 60) / System.Math.PI * 110));
-                _year = initialRandomYear - Static.Random.Next(System.Math.Min(0, maxToSubtract), System.Math.Max(0, maxToSubtract));
+                year = initialRandomYear - Static.Random.Next(System.Math.Min(0, maxToSubtract), System.Math.Max(0, maxToSubtract));
+            }
+            else
+            {
+                year = _year.Value;
             }
 
             if (!_month.HasValue)
             {
-                _month = Static.Random.Next(1, 12);
+                month = Static.Random.Next(1, 12);
+            }
+            else
+            {
+                month = _month.Value;
             }
 
             if (!_day.HasValue)
             {
-                _day = Static.Random.Next(1, DateTime.DaysInMonth(_year.Value, _month.Value));
+                day = Static.Random.Next(1, DateTime.DaysInMonth(year, month));
+            }
+            else
+            {
+                day = _day.Value;
             }
 
-            return new DateTime(_year.Value, _month.Value, _day.Value);
+            return new DateTime(year, month, day);
         }
     }
 }

@@ -24,6 +24,8 @@ namespace Frings.SwePin.Tests.Generation
         [Category("Unit")]
         [TestCase(1985, 12, 24, Sex.Male)]
         [TestCase(1995, 12, 24, Sex.Male)]
+        [TestCase(1985, 12, 24, Sex.Female)]
+        [TestCase(1995, 12, 24, Sex.Female)]
         public void Build(int year, int month, int day, Sex sex)
         {
             var result =
@@ -32,7 +34,7 @@ namespace Frings.SwePin.Tests.Generation
                     .WithMonth(month)
                     .WithDay(day)
                     .WithSex(sex)
-                    .WithBirthCounty(new County("Foo", new Range(100, 200)))
+                    .WithBirthCounty(() => new County("Foo", new Range(100, 200)))
                     .Build();
 
             Assert.AreEqual(year, result.Year);
@@ -40,7 +42,7 @@ namespace Frings.SwePin.Tests.Generation
             Assert.AreEqual(day, result.Day);
             Assert.AreEqual(sex, result.Sex);
 
-            if (year < 1990)
+            if (year >= 1990)
             {
                 Assert.IsNull(result.County);
             }
