@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Text.RegularExpressions;
 
 using Frings.SwePin.Data;
@@ -15,7 +17,7 @@ namespace Frings.SwePin
 
             var cleanPinValue = InputCleaner.Clean(pinValue);
 
-            if (Validator.ValidateInput(cleanPinValue) is var validationResult &&
+            if (Validator.ValidateInputFormat(cleanPinValue) is var validationResult &&
                 !validationResult.HasFlag(ValidationResult.Valid))
             {
                 throw new ValidationException(validationResult);

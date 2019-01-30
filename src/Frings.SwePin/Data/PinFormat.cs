@@ -1,4 +1,6 @@
-﻿namespace Frings.SwePin.Data
+﻿#nullable enable
+
+namespace Frings.SwePin.Data
 {
     public enum PinFormat
     {

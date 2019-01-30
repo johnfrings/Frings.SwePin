@@ -1,5 +1,7 @@
-﻿using System;
-using Frings.SwePin.Abstractions;
+﻿#nullable enable
+
+using System;
+
 using Frings.SwePin.Data;
 using Frings.SwePin.Exceptions;
 using Frings.SwePin.Generation;
@@ -12,7 +14,6 @@ namespace Frings.SwePin
         private int? _age;
         private Sex _sex;
         private DateTime? _birthDate;
-        private ICounty _county;
 
         internal Pin(int year, int month, int day, int birthNumber, int? controlNumber)
         {
@@ -112,28 +113,8 @@ namespace Frings.SwePin
             }
         }
 
-        public ICounty County
+        public static bool TryParse(string value, out Pin? pin)
         {
-            get
-            {
-                if (_county != null)
-                {
-                    if (Year < 1990)
-                    {
-                        _county = new CountiesRepository().Get(BirthNumber);
-                    }
-
-                    _county = null;
-                }
-
-                return _county;
-            }
-        }
-
-        public static bool TryParse(string value, out Pin pin)
-        {
-            pin = null;
-
             try
             {
                 var pinParts = Parser.Parse(value);
@@ -144,7 +125,7 @@ namespace Frings.SwePin
             }
             catch (Exception)
             {
-                pin = null;
+                pin = default;
             }
 
             return false;

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Text.RegularExpressions;
 
 using Frings.SwePin.Data;
@@ -33,7 +35,7 @@ namespace Frings.SwePin
 
         public static ValidationResult Validate(string pinValue)
         {
-            var result = ValidationResult.Valid;
+            ValidationResult result;
 
             try
             {
@@ -62,7 +64,7 @@ namespace Frings.SwePin
                 }
             }
             else if (Validate(pinParts.Year, pinParts.Month, pinParts.Day, pinParts.BirthNumber) is var validationResult &&
-                !validationResult.HasFlag(ValidationResult.Valid))
+                     !validationResult.HasFlag(ValidationResult.Valid))
             {
                 result = validationResult;
             }
@@ -142,7 +144,7 @@ namespace Frings.SwePin
             return result;
         }
 
-        public static ValidationResult ValidateInput(string pinValue)
+        public static ValidationResult ValidateInputFormat(string pinValue)
         {
             var result = ValidationResult.Valid;
 
@@ -158,7 +160,7 @@ namespace Frings.SwePin
             //
             // The separator between birth date (YYMMDD) and the birth number (XXX)
             // is "+" if the birth date was more than 100 years ago, otherwise "-"
-            if (!Regex.IsMatch(pinValue, @"\d{6,8}[-+]?\d{4}"))
+            if (!Regex.IsMatch(pinValue, @"^(\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])-?|\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])[-+]?)\d{4}$"))
             {
                 result = ValidationResult.InvalidInputFormat;
             }

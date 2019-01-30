@@ -1,4 +1,6 @@
-﻿using Frings.SwePin.Data;
+﻿#nullable enable
+
+using Frings.SwePin.Data;
 using Frings.SwePin.Models;
 
 namespace Frings.SwePin.Generation
@@ -8,8 +10,6 @@ namespace Frings.SwePin.Generation
         internal int? Age { get; set; }
 
         internal Sex Sex { get; set; }
-
-        internal County County { get; set; }
 
         internal int? Year { get; set; }
 

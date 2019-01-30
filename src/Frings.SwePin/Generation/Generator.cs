@@ -1,4 +1,6 @@
-﻿namespace Frings.SwePin.Generation
+﻿#nullable enable
+
+namespace Frings.SwePin.Generation
 {
     public class Generator
     {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#nullable enable
+
+using System;
 using System.Collections.Generic;
 
 using Frings.SwePin.Data;
@@ -20,16 +22,6 @@ namespace Frings.SwePin.Generation
         public static GenerationConfig WithSex(this GenerationConfig config, Data.Sex sex)
         {
             config.Sex = sex;
-
-            return config;
-        }
-
-        public static GenerationConfig FromCounty(this GenerationConfig config, County county)
-        {
-            if (county != null)
-            {
-                config.County = county;
-            }
 
             return config;
         }
@@ -131,15 +123,7 @@ namespace Frings.SwePin.Generation
                 }
             }
 
-            if (config.County != null &&
-                pinParts.Year < 1990)
-            {
-                pinParts.BirthNumber = new CountiesRepository().GetRandomBirthNumber(config.County, config.Sex);
-            }
-            else
-            {
-                pinParts.BirthNumber = Math.Sex.GetRandomBirthNumber(config.Sex);
-            }
+            pinParts.BirthNumber = Math.Sex.GetRandomBirthNumber(config.Sex);
 
             return new Pin(pinParts);
         }

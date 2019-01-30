@@ -1,4 +1,6 @@
-﻿namespace Frings.SwePin.Models
+﻿#nullable enable
+
+namespace Frings.SwePin.Models
 {
     internal class PinParts
     {

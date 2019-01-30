@@ -34,18 +34,12 @@ namespace Frings.SwePin.Tests.Generation
                     .WithMonth(month)
                     .WithDay(day)
                     .WithSex(sex)
-                    .WithBirthCounty(() => new County("Foo", new Range(100, 200)))
                     .Build();
 
             Assert.AreEqual(year, result.Year);
             Assert.AreEqual(month, result.Month);
             Assert.AreEqual(day, result.Day);
             Assert.AreEqual(sex, result.Sex);
-
-            if (year >= 1990)
-            {
-                Assert.IsNull(result.County);
-            }
         }
     }
 }

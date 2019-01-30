@@ -1,6 +1,7 @@
-﻿using System;
+﻿#nullable enable
 
-using Frings.SwePin.Abstractions;
+using System;
+
 using Frings.SwePin.Data;
 
 namespace Frings.SwePin.Generation
@@ -9,7 +10,6 @@ namespace Frings.SwePin.Generation
     {
         private int? _age;
         private Sex _sex;
-        private ICounty _county;
 
         private int? _year;
         private int? _month;
@@ -17,20 +17,6 @@ namespace Frings.SwePin.Generation
 
         internal PinBuilder()
         {
-        }
-
-        public PinBuilder WithBirthCounty(ICounty county)
-        {
-            _county = county;
-
-            return this;
-        }
-
-        public PinBuilder WithBirthCounty(Func<ICounty> countyFunc)
-        {
-            _county = countyFunc.Invoke();
-
-            return this;
         }
 
         public PinBuilder WithAge(int age)
@@ -82,21 +68,6 @@ namespace Frings.SwePin.Generation
 
         private int GenerateBirthNumber()
         {
-            if (_county != null &&
-                _year.HasValue &&
-                _year.Value < 1990)
-            {
-                var initialBirthNumber =
-                    Static.Random.Next(_county.Range.From, _county.Range.To - (_county.Range.To - _county.Range.From) / 2) * 2;
-
-                if (_sex == Sex.Male)
-                {
-                    return initialBirthNumber + 1;
-                }
-
-                return initialBirthNumber;
-            }
-
             if (_sex == Sex.Male)
             {
                 return Static.Random.Next(0, 499) * 2 + 1;
