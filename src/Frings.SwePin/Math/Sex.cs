@@ -2,11 +2,13 @@
 
 using System;
 
+using Frings.SwePin.Models;
+
 namespace Frings.SwePin.Math
 {
     internal static class Sex
     {
-        internal static Data.Sex GetGenderFromBirthNumber(int birthNumber)
+        public static Data.Sex GetGenderFromBirthNumber(BirthNumber birthNumber)
         {
             var result = Data.Sex.Unspecified;
 
@@ -18,14 +20,26 @@ namespace Frings.SwePin.Math
             return result;
         }
 
-        internal static Data.Sex GetRandom()
+        public static Data.Sex GetGenderFromBirthNumber(int birthNumber)
+        {
+            var result = Data.Sex.Unspecified;
+
+            if (birthNumber >= 0 && birthNumber <= 999)
+            {
+                result = birthNumber % 2 == 0 ? Data.Sex.Female : Data.Sex.Male;
+            }
+
+            return result;
+        }
+
+        public static Data.Sex GetRandom()
         {
             var random = new Random();
 
             return random.Next(1, 100) >= 50 ? Data.Sex.Female : Data.Sex.Male;
         }
 
-        internal static int GetRandomBirthNumber(Data.Sex sex = Data.Sex.Unspecified)
+        public static int GetRandomBirthNumber(Data.Sex sex = Data.Sex.Unspecified)
         {
             int birthNumber;
 

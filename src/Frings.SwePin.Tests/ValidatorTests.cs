@@ -80,6 +80,9 @@ namespace Frings.SwePin.Tests
         [InlineData("7912320045")]
         [InlineData("7912000045")]
         [InlineData("7900010045")]
+        [InlineData("abcd")]
+        [InlineData("")]
+        [InlineData(null)]
         public void InvalidInputFormatIsInvalid(string input)
         {
             Validator.ValidateInputFormat(input).Should().Be(Data.ValidationResult.InvalidInputFormat);

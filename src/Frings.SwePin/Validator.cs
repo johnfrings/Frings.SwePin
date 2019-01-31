@@ -11,6 +11,12 @@ namespace Frings.SwePin
 {
     internal static class Validator
     {
+        // A rough estimate of a well formed Swedish personal identity number
+        // Also takes into account that:
+        // * month must be between 01 and 12
+        // * day must be between 01 and 31
+        private const string FormatExpression = @"^(\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])-?|\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])[-+]?)\d{4}$";
+
         public static ValidationResult Validate(int year, int month, int day, int birthNumber, int controlNumber)
         {
             var result = Validate(year, month, day, birthNumber);
@@ -160,7 +166,7 @@ namespace Frings.SwePin
             //
             // The separator between birth date (YYMMDD) and the birth number (XXX)
             // is "+" if the birth date was more than 100 years ago, otherwise "-"
-            if (!Regex.IsMatch(pinValue, @"^(\d{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])-?|\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])[-+]?)\d{4}$"))
+            if (!Regex.IsMatch(pinValue, FormatExpression))
             {
                 result = ValidationResult.InvalidInputFormat;
             }

@@ -8,6 +8,11 @@ namespace Frings.SwePin
     {
         public static string Clean(string pinValue)
         {
+            if (string.IsNullOrWhiteSpace(pinValue))
+            {
+                return string.Empty;
+            }
+
             return Regex.Replace(pinValue, @"[^0-9\-\+]", string.Empty);
         }
     }

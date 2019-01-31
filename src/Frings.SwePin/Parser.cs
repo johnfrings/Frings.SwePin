@@ -13,6 +13,11 @@ namespace Frings.SwePin
     {
         public static PinParts Parse(string pinValue)
         {
+            if (string.IsNullOrWhiteSpace(pinValue))
+            {
+                throw new ValidationException(ValidationResult.InvalidInputFormat);
+            }
+
             var result = new PinParts();
 
             var cleanPinValue = InputCleaner.Clean(pinValue);
@@ -23,8 +28,10 @@ namespace Frings.SwePin
                 throw new ValidationException(validationResult);
             }
 
-            var matches = Regex.Match(cleanPinValue,
-                @"(?<Century>\d\d)?(?<Year>\d\d)(?<Month>(?:0\d|1[012]))(?<Day>(?:[012]\d|3[01]))(?<Separator>[+-])?(?<BirthNumber>\d{3})(?<ControlNumber>)");
+            var matches =
+                Regex.Match(
+                    cleanPinValue,
+                    @"(?<Century>\d\d)?(?<Year>\d\d)(?<Month>(?:0\d|1[012]))(?<Day>(?:[012]\d|3[01]))(?<Separator>[+-])?(?<BirthNumber>\d{3})(?<ControlNumber>\d)");
 
             if (matches.Success)
             {
@@ -49,8 +56,10 @@ namespace Frings.SwePin
                 // Was year parsed from a 2 digit year?
                 if (result.Year < 100)
                 {
+                    var utcNow = DateTime.UtcNow;
+
                     // At first assume the pin represents someone younger than 100...
-                    var currentYear = DateTime.UtcNow.Year;
+                    var currentYear = utcNow.Year;
 
                     if (result.Year > currentYear % 100)
                     {
@@ -66,11 +75,23 @@ namespace Frings.SwePin
                     {
                         result.Year -= 100;
                     }
+                    else if (result.Year.Equals(utcNow.Year))
+                    {
+                        // Edge case: if the year was found to be this year, check if the PIN is ahead in time
+                        var pinDate = new DateTime(result.Year, result.Month, result.Day);
+
+                        if (pinDate > utcNow)
+                        {
+                            // Some PIN for a person not born yet should not exist so
+                            // we must assume that it is someone about to turn 100 years old
+                            result.Year -= 100;
+                        }
+                    }
                 }
             }
             else
             {
-
+                throw new ValidationException(ValidationResult.InvalidInputFormat);
             }
 
             return result;

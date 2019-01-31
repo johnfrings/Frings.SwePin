@@ -7,7 +7,6 @@ using Frings.SwePin.Math;
 
 using Xunit;
 
-
 namespace Frings.SwePin.Tests.Math
 {
     public class ControlNumberTests
